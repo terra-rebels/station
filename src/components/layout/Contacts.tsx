@@ -1,13 +1,13 @@
-import { ReactNode } from "react"
 import classNames from "classnames/bind"
-import { Contacts as ContactProps } from "types/components"
-import { ReactComponent as Medium } from "styles/images/community/Medium.svg"
-import { ReactComponent as Discord } from "styles/images/community/Discord.svg"
-import { ReactComponent as Telegram } from "styles/images/community/Telegram.svg"
-import { ReactComponent as Twitter } from "styles/images/community/Twitter.svg"
-import { ReactComponent as Github } from "styles/images/community/Github.svg"
 import { ExternalLink } from "components/general"
 import { Flex } from "components/layout"
+import { ReactNode } from "react"
+import { ReactComponent as Discord } from "styles/images/community/Discord.svg"
+import { ReactComponent as Github } from "styles/images/community/Github.svg"
+import { ReactComponent as Medium } from "styles/images/community/Medium.svg"
+import { ReactComponent as Telegram } from "styles/images/community/Telegram.svg"
+import { ReactComponent as Twitter } from "styles/images/community/Twitter.svg"
+import { Contacts as ContactProps } from "types/components"
 import styles from "./Contacts.module.scss"
 
 const cx = classNames.bind(styles)
@@ -33,7 +33,11 @@ const Contacts = ({ contacts, menu }: Props) => {
       {Object.entries(contacts).map(([key, href]) => {
         const icon = icons[key]
         return !icon ? null : (
-          <ExternalLink href={href} className={styles.icon} key={key}>
+          <ExternalLink
+            href={href}
+            className={cx(styles.icon, styles.external)}
+            key={key}
+          >
             {icon}
           </ExternalLink>
         )

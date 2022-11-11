@@ -10,6 +10,12 @@
   margin: calc(-1 * var(--gutter));
 }
 
+.external {
+  svg {
+    fill: var(--button-primary-text);
+  }
+}
+
 /* item */
 .icon {
   display: flex;
