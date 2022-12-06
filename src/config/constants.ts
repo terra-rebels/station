@@ -8,6 +8,9 @@ export const BRIDGE = "https://walletconnect.terra.dev"
 export const ASSETS = "https://assets.terrarebels.net"
 export const OBSERVER = "wss://observer.terra.dev"
 
+/* lcd */
+export const LCD = "https://terra-classic-lcd.publicnode.com"
+
 /* website */
 export const STATION = "https://station.terrarebels.net"
 export const FINDER = "https://terrascope.info"

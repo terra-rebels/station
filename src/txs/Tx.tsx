@@ -7,6 +7,7 @@ import { useRecoilValue, useSetRecoilState } from "recoil"
 import classNames from "classnames"
 import BigNumber from "bignumber.js"
 import { head, isNil } from "ramda"
+import { LCD } from "config/constants"
 
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet"
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline"
@@ -142,7 +143,7 @@ function Tx<TxValues>(props: Props<TxValues>) {
 
       const config = {
         ...network,
-        URL: network.lcd,
+        URL: LCD,
         gasAdjustment,
         gasPrices: { [initialGasDenom]: gasPrices[initialGasDenom] },
       }
