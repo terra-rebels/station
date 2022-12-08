@@ -12,7 +12,7 @@ export const OBSERVER = "wss://observer.terra.dev"
 export const STATION = "https://station.terrarebels.net"
 export const FINDER = "https://finder.terrarebels.net"
 export const EXTENSION =
-  "https://chrome.google.com/webstore/detail/aiifbnbfobpmeekipheeijimdpnlpgpp"
+  "https://chrome.google.com/webstore/detail/akckefnapafjbpphkefbpkpcamkoaoai"
 export const TUTORIAL = "https://www.terrarebels.net/guides"
 
 /* website: stake */
