@@ -36,9 +36,16 @@ const ProposalsByStatus = ({ status }: { status: Proposal.Status }) => {
   const whitelist = whitelistData?.[networkName]
 
   const [showAll, setShowAll] = useState(!!whitelist)
-  const toggle = () => setShowAll((state) => !state)
+  const toggle = () => {
+    setShowAll((state) => !state)
+    setPaginationState(DefaultGovernancePaginationState)
+  }
 
-  const pagination = 6
+  const PAGINATION_LENGTH =
+    status === Proposal.Status.PROPOSAL_STATUS_VOTING_PERIOD && !showAll
+      ? 999
+      : 6
+
   const [paginationState, setPaginationState] = useRecoilState(
     governancePaginationState
   )
@@ -61,10 +68,21 @@ const ProposalsByStatus = ({ status }: { status: Proposal.Status }) => {
     setPaginationState(DefaultGovernancePaginationState)
   }, [paginationState, setPaginationState, status])
 
-  const { data, ...proposalState } = useProposals(status, {
+  /* Note the following duplicate call to useProposals is a workaround
+  for the issue described by https://github.com/terra-money/station/issues/133 */
+  const { data: countData, ...proposalCountState } = useProposals(status, {
     "pagination.count_total": "true",
+    "pagination.limit": "1",
+  })
+  const [, paginationCountData] = countData || []
+
+  const { data, ...proposalState } = useProposals(status, {
+    "pagination.count_total": "false",
     "pagination.reverse": "true",
-    "pagination.limit": String(pagination),
+    "pagination.limit":
+      status === Proposal.Status.PROPOSAL_STATUS_VOTING_PERIOD && !showAll
+        ? "999"
+        : String(PAGINATION_LENGTH),
     "pagination.key": key,
   })
   const [proposalData, paginationData] = data || []
@@ -72,21 +90,27 @@ const ProposalsByStatus = ({ status }: { status: Proposal.Status }) => {
   useEffect(() => {
     if (
       !(
-        paginationData &&
-        paginationData.total > 0 &&
-        paginationData.total !== total
+        paginationCountData &&
+        paginationCountData.total > 0 &&
+        paginationCountData.total !== total
       )
     )
       return
 
     setPaginationState(
-      Object.assign({}, paginationState, { total: paginationData.total })
+      Object.assign({}, paginationState, { total: paginationCountData.total })
     )
-  }, [paginationData, paginationState, setPaginationState, total])
+  }, [
+    paginationCountData,
+    paginationState,
+    proposalCountState,
+    setPaginationState,
+    total,
+  ])
 
   const { label } = useProposalStatusItem(status)
 
-  const state = combineState(whitelistState, proposalState)
+  const state = combineState(whitelistState, proposalState, proposalCountState)
 
   /* pagination */
   const handleNext = () => {
@@ -116,8 +140,8 @@ const ProposalsByStatus = ({ status }: { status: Proposal.Status }) => {
   }
 
   const renderPagination = () => {
-    if (!(pagination && paginationData)) return null
-    const recordTotal = Math.ceil(total / pagination)
+    if (!(PAGINATION_LENGTH && paginationData)) return null
+    const recordTotal = Math.ceil(total / PAGINATION_LENGTH)
 
     if (!recordTotal || recordTotal === 1) return null
     const prevPage = page > 1 ? () => handlePrevious() : undefined
