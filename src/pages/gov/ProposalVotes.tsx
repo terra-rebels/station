@@ -200,7 +200,7 @@ const calcTallies = (
 
   const hasConsent =
     has(total.voted) &&
-    total.voted > abstained &&
+    Number(total.voted) > Number(abstained) &&
     Number(consent) / (Number(total.voted) - Number(abstained)) >
       threshold.toNumber()
   const isVetoed =
