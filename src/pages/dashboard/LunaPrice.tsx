@@ -22,7 +22,7 @@ const LunaPrice = () => {
         value={<Read amount={String(price * 1e6)} denom={denom} auto />}
         footer={
           <ModalButton
-            title={t("Luna price")}
+            title={t("Lunc price")}
             renderButton={(open) => (
               <button onClick={open}>{t("Show chart")}</button>
             )}
@@ -37,7 +37,7 @@ const LunaPrice = () => {
   return (
     <Card
       {...state}
-      title={t("Luna price")}
+      title={t("Lunc price")}
       className={styles.price}
       size="small"
     >
