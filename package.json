@@ -15,8 +15,8 @@
   },
   "dependencies": {
     "@ledgerhq/hw-transport-web-ble": "^6.27.1",
-    "@mui/icons-material": "^5.8.0",
-    "@mui/material": "^5.9.1",
+    "@mui/icons-material": "^5.11.0",
+    "@mui/material": "^5.11.0",
     "@terra-rebels/anchor.js": "^1.0.0",
     "@terra-rebels/kitchen-utils": "^1.0.0",
     "@terra-rebels/ledger-terra-js": "^1.0.0",
