@@ -50,7 +50,7 @@
     "react-query": "^3.39.0",
     "react-router-dom": "^6.3.0",
     "recharts": "^2.1.14",
-    "recoil": "^0.7.2",
+    "recoil": "^0.7.6",
     "sass": "^1.52.1",
     "secp256k1": "^4.0.3",
     "semver": "^7.3.7",
