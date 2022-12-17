@@ -14,16 +14,16 @@
     "analyze": "source-map-explorer 'build/static/js/*.js'"
   },
   "dependencies": {
-    "@terra-rebels/anchor.js": "^1.0.0",
     "@ledgerhq/hw-transport-web-ble": "^6.27.1",
     "@mui/icons-material": "^5.8.0",
     "@mui/material": "^5.9.1",
+    "@terra-rebels/anchor.js": "^1.0.0",
+    "@terra-rebels/kitchen-utils": "^1.0.0",
     "@terra-rebels/ledger-terra-js": "^1.0.0",
     "@terra-rebels/log-finder-ruleset": "^1.0.0",
     "@terra-rebels/terra.js": "^1.0.0",
     "@terra-rebels/terra.proto": "^0.9.0",
     "@terra-rebels/wallet-provider": "^1.0.2",
-    "@terra-rebels/kitchen-utils": "^1.0.0",
     "@tippyjs/react": "^4.2.6",
     "axios": "^0.27.2",
     "bignumber.js": "^9.0.2",
@@ -55,7 +55,7 @@
     "secp256k1": "^4.0.3",
     "semver": "^7.3.7",
     "sentence-case": "^3.0.4",
-    "xss": "1.0.11"
+    "xss": "1.0.14"
   },
   "devDependencies": {
     "@emotion/react": "^11.9.0",
