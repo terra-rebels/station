@@ -1,21 +1,25 @@
-import { useMemo, useState } from "react"
-import { useTranslation } from "react-i18next"
-import { Link } from "react-router-dom"
 import VerifiedIcon from "@mui/icons-material/Verified"
 import { readPercent } from "@terra-rebels/kitchen-utils"
 import { Validator } from "@terra-rebels/terra.js"
+import { useCallback, useMemo, useState } from "react"
+import { useTranslation } from "react-i18next"
+import { Link } from "react-router-dom"
 /* FIXME(terra.js): Import from terra.js */
-import { BondStatus } from "@terra-rebels/terra.proto/cosmos/staking/v1beta1/staking"
-import { bondStatusFromJSON } from "@terra-rebels/terra.proto/cosmos/staking/v1beta1/staking"
-import { combineState, useIsClassic } from "data/query"
-import { useValidators } from "data/queries/staking"
-import { useDelegations, useUnbondings } from "data/queries/staking"
-import { getCalcVotingPowerRate } from "data/Terra/TerraAPI"
-import { useTerraValidators } from "data/Terra/TerraAPI"
-import { Page, Card, Table, Flex, Grid } from "components/layout"
+import {
+  BondStatus,
+  bondStatusFromJSON,
+} from "@terra-rebels/terra.proto/cosmos/staking/v1beta1/staking"
 import { TooltipIcon } from "components/display"
 import { Toggle } from "components/form"
+import { Card, Flex, Grid, Page, Table } from "components/layout"
 import { Read } from "components/token"
+import {
+  useDelegations,
+  useUnbondings,
+  useValidators,
+} from "data/queries/staking"
+import { combineState, useIsClassic } from "data/query"
+import { getCalcVotingPowerRate, useTerraValidators } from "data/Terra/TerraAPI"
 import WithSearchInput from "pages/custom/WithSearchInput"
 import ProfileIcon from "./components/ProfileIcon"
 import Uptime from "./components/Uptime"
@@ -39,13 +43,31 @@ const Validators = () => {
     TerraValidatorsState
   )
 
+  const [byDelegated, setByDelegated] = useState(false)
+
+  const isDelegated = useCallback(
+    (operator_address: string) => {
+      return delegations?.find(
+        ({ validator_address }) => validator_address === operator_address
+      )
+    },
+    [delegations]
+  )
+
   const activeValidators = useMemo(() => {
     if (!(validators && TerraValidators)) return null
 
     const calcRate = getCalcVotingPowerRate(TerraValidators)
 
+    console.log(validators)
+
     return validators
-      .filter(({ status }) => !getIsUnbonded(status))
+      .filter(({ status, operator_address }) => {
+        return (
+          !getIsUnbonded(status) &&
+          (byDelegated === false ? true : isDelegated(operator_address))
+        )
+      })
       .map((validator) => {
         const { operator_address } = validator
 
@@ -66,7 +88,7 @@ const Validators = () => {
         }
       })
       .sort(({ rank: a }, { rank: b }) => a - b)
-  }, [TerraValidators, validators])
+  }, [validators, TerraValidators, byDelegated, isDelegated])
 
   const renderCount = () => {
     if (!validators) return null
@@ -75,6 +97,7 @@ const Validators = () => {
   }
 
   const [byRank, setByRank] = useState(isClassic)
+
   const render = (keyword: string) => {
     if (!activeValidators) return null
 
@@ -111,6 +134,17 @@ const Validators = () => {
                 {t("Weighted score")}
               </Toggle>
             </TooltipIcon>
+            <TooltipIcon
+              className={styles.toolipwrapper}
+              content={<span>Showw delegated validators only</span>}
+            >
+              <Toggle
+                checked={byDelegated}
+                onChange={() => setByDelegated(!byDelegated)}
+              >
+                {t("Delegated only")}
+              </Toggle>
+            </TooltipIcon>
           </section>
         )}
 
@@ -139,10 +173,7 @@ const Validators = () => {
                 const { operator_address, jailed } = validator
                 const { contact } = validator
 
-                const delegated = delegations?.find(
-                  ({ validator_address }) =>
-                    validator_address === operator_address
-                )
+                const delegated = isDelegated(operator_address)
 
                 const undelegated = undelegations?.find(
                   ({ validator_address }) =>

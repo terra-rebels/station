@@ -1,7 +1,7 @@
+import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined"
+import Tippy, { TippyProps } from "@tippyjs/react"
 import { ReactNode } from "react"
 import { useLocation } from "react-router-dom"
-import Tippy, { TippyProps } from "@tippyjs/react"
-import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined"
 import { InlineFlex } from "../layout"
 
 export const Popover = ({ theme = "popover", ...props }: TippyProps) => {
@@ -30,13 +30,14 @@ export default Tooltip
 /* derive */
 interface Props extends Omit<TippyProps, "children"> {
   children: ReactNode
+  className?: string
 }
 
 export const TooltipIcon = (props: Props) => {
   return (
-    <InlineFlex gap={4} start>
+    <InlineFlex gap={4} className={props.className} start>
       {props.children}
-      <Tooltip {...props}>
+      <Tooltip {...{ ...props, className: undefined }}>
         <HelpOutlineOutlinedIcon fontSize="inherit" className="muted" />
       </Tooltip>
     </InlineFlex>
