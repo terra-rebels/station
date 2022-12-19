@@ -1,25 +1,21 @@
-import VerifiedIcon from "@mui/icons-material/Verified"
-import { readPercent } from "@terra-rebels/kitchen-utils"
-import { Validator } from "@terra-rebels/terra.js"
 import { useMemo, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { Link } from "react-router-dom"
+import VerifiedIcon from "@mui/icons-material/Verified"
+import { readPercent } from "@terra-rebels/kitchen-utils"
+import { Validator } from "@terra-rebels/terra.js"
 /* FIXME(terra.js): Import from terra.js */
-import {
-  BondStatus,
-  bondStatusFromJSON,
-} from "@terra-rebels/terra.proto/cosmos/staking/v1beta1/staking"
+import { BondStatus } from "@terra-rebels/terra.proto/cosmos/staking/v1beta1/staking"
+import { bondStatusFromJSON } from "@terra-rebels/terra.proto/cosmos/staking/v1beta1/staking"
+import { combineState, useIsClassic } from "data/query"
+import { useValidators } from "data/queries/staking"
+import { useDelegations, useUnbondings } from "data/queries/staking"
+import { getCalcVotingPowerRate } from "data/Terra/TerraAPI"
+import { useTerraValidators } from "data/Terra/TerraAPI"
+import { Page, Card, Table, Flex, Grid } from "components/layout"
 import { TooltipIcon } from "components/display"
 import { Toggle } from "components/form"
-import { Card, Flex, Grid, Page, Table } from "components/layout"
 import { Read } from "components/token"
-import {
-  useDelegations,
-  useUnbondings,
-  useValidators,
-} from "data/queries/staking"
-import { combineState, useIsClassic } from "data/query"
-import { getCalcVotingPowerRate, useTerraValidators } from "data/Terra/TerraAPI"
 import WithSearchInput from "pages/custom/WithSearchInput"
 import ProfileIcon from "./components/ProfileIcon"
 import Uptime from "./components/Uptime"
