@@ -1,7 +1,7 @@
 import VerifiedIcon from "@mui/icons-material/Verified"
 import { readPercent } from "@terra-rebels/kitchen-utils"
 import { Validator } from "@terra-rebels/terra.js"
-import { useCallback, useMemo, useState } from "react"
+import { useMemo, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { Link } from "react-router-dom"
 /* FIXME(terra.js): Import from terra.js */
@@ -43,29 +43,13 @@ const Validators = () => {
     TerraValidatorsState
   )
 
-  const [byDelegated, setByDelegated] = useState(false)
-
-  const isDelegated = useCallback(
-    (operator_address: string) => {
-      return delegations?.find(
-        ({ validator_address }) => validator_address === operator_address
-      )
-    },
-    [delegations]
-  )
-
   const activeValidators = useMemo(() => {
     if (!(validators && TerraValidators)) return null
 
     const calcRate = getCalcVotingPowerRate(TerraValidators)
 
     return validators
-      .filter(({ status, operator_address }) => {
-        return (
-          !getIsUnbonded(status) &&
-          (byDelegated === false ? true : isDelegated(operator_address))
-        )
-      })
+      .filter(({ status }) => !getIsUnbonded(status))
       .map((validator) => {
         const { operator_address } = validator
 
@@ -86,7 +70,7 @@ const Validators = () => {
         }
       })
       .sort(({ rank: a }, { rank: b }) => a - b)
-  }, [TerraValidators, byDelegated, isDelegated, validators])
+  }, [TerraValidators, validators])
 
   const renderCount = () => {
     if (!validators) return null
@@ -131,17 +115,6 @@ const Validators = () => {
                 {t("Weighted score")}
               </Toggle>
             </TooltipIcon>
-            <TooltipIcon
-              className={styles.tooltip_spacer}
-              content={<span>Show delegated validators only</span>}
-            >
-              <Toggle
-                checked={byDelegated}
-                onChange={() => setByDelegated(!byDelegated)}
-              >
-                {t("Delegated only")}
-              </Toggle>
-            </TooltipIcon>
           </section>
         )}
 
@@ -170,7 +143,10 @@ const Validators = () => {
                 const { operator_address, jailed } = validator
                 const { contact } = validator
 
-                const delegated = isDelegated(operator_address)
+                const delegated = delegations?.find(
+                  ({ validator_address }) =>
+                    validator_address === operator_address
+                )
 
                 const undelegated = undelegations?.find(
                   ({ validator_address }) =>
