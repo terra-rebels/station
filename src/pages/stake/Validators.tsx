@@ -128,7 +128,7 @@ const Validators = () => {
               </Toggle>
             </TooltipIcon>
             <TooltipIcon
-              className={styles.toolipwrapper}
+              className={styles.tooltip_spacer}
               content={<span>Show delegated validators only</span>}
             >
               <Toggle
