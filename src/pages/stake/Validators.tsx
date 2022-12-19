@@ -59,8 +59,6 @@ const Validators = () => {
 
     const calcRate = getCalcVotingPowerRate(TerraValidators)
 
-    console.log(validators)
-
     return validators
       .filter(({ status, operator_address }) => {
         return (
@@ -88,7 +86,7 @@ const Validators = () => {
         }
       })
       .sort(({ rank: a }, { rank: b }) => a - b)
-  }, [validators, TerraValidators, byDelegated, isDelegated])
+  }, [TerraValidators, byDelegated, isDelegated, validators])
 
   const renderCount = () => {
     if (!validators) return null
@@ -97,7 +95,6 @@ const Validators = () => {
   }
 
   const [byRank, setByRank] = useState(isClassic)
-
   const render = (keyword: string) => {
     if (!activeValidators) return null
 
@@ -135,8 +132,8 @@ const Validators = () => {
               </Toggle>
             </TooltipIcon>
             <TooltipIcon
-              className={styles.toolipwrapper}
-              content={<span>Showw delegated validators only</span>}
+              className={styles.tooltip_spacer}
+              content={<span>Show delegated validators only</span>}
             >
               <Toggle
                 checked={byDelegated}

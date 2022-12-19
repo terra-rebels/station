@@ -37,7 +37,13 @@ export const TooltipIcon = (props: Props) => {
   return (
     <InlineFlex gap={4} className={props.className} start>
       {props.children}
-      <Tooltip {...{ ...props, className: undefined }}>
+      <Tooltip
+        {...{
+          ...props,
+          className:
+            undefined /* Do not pass the className provided by Props */,
+        }}
+      >
         <HelpOutlineOutlinedIcon fontSize="inherit" className="muted" />
       </Tooltip>
     </InlineFlex>
