@@ -14,6 +14,7 @@ import pl from "locales/pl.json"
 import pt from "locales/pt.json"
 import ru from "locales/ru.json"
 import zh from "locales/zh.json"
+import nl from "locales/nl.json"
 
 const flatten = (obj: object, initial = {}): Dictionary<string> => {
   return Object.entries(obj).reduce((prev, [key, value]) => {
@@ -36,9 +37,17 @@ export const Languages = {
   pt: { value: "pt", label: "Português", translation: flatten(pt) },
   ru: { value: "ru", label: "Русский", translation: flatten(ru) },
   zh: { value: "zh", label: "中文", translation: flatten(zh) },
+  nl: { value: "nl", label: "Nederlands", translation: flatten(nl) },
 }
 
-i18n.use(LanguageDetector).use(initReactI18next).init({
-  resources: Languages,
-  debug: !!debug.translation,
-})
+i18n
+  .use(LanguageDetector)
+  .use(initReactI18next)
+  .init({
+    resources: Languages,
+    debug: !!debug.translation,
+    parseMissingKeyHandler: (key) => {
+      console.warn(`react-i18next key "${key}" not found.`)
+      return key
+    },
+  })
