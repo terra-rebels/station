@@ -7,12 +7,14 @@ const LinkEcosystem = () => {
   const { t } = useTranslation()
 
   return (
-    <Card href="https://terra.money/ecosystem">
+    <Card href="https://www.terrarebels.net/#ourdapps">
       <Flex start gap={16}>
         <Logo width={40} height={40} />
         <Grid style={{ flex: 1 }} gap={4}>
           <h1>{t("Explore the Ecosystem")}</h1>
-          <p className="small">{t("Try out various dApps built on Terra")}</p>
+          <p className="small">
+            {t("Try out various dApps built on Terra Classic")}
+          </p>
         </Grid>
         <CallMadeIcon />
       </Flex>
