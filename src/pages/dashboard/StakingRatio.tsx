@@ -25,7 +25,7 @@ const StakingRatio = () => {
     if (!issuance) return null
 
     const ratio = Number(bonded) / Number(issuance)
-    const tooltip = t("{{amount}} Luna staked", {
+    const tooltip = t("{{amount}} Lunc staked", {
       amount: readAmount(bonded, { prefix: true, integer: true }),
     })
 
@@ -38,7 +38,7 @@ const StakingRatio = () => {
         }
         footer={
           <DashboardTag>
-            {[t("Staked Luna"), t("Total Luna")].join(" / ")}
+            {[t("Staked Lunc"), t("Total Lunc")].join(" / ")}
           </DashboardTag>
         }
       />
