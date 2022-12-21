@@ -75,7 +75,7 @@ export const readNativeDenom = (
   isClassic?: boolean
 ): TokenItem => {
   const symbol = readDenom(denom)
-  const symbolClassic = denom === "uluna" ? "LUNC" : symbol + "C"
+  const symbolClassic = denom === "uluna" ? "LUNC" : symbol
 
   const path = isDenomTerra(denom)
     ? `Terra/${symbol}.svg`
