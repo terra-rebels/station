@@ -23,7 +23,7 @@ const DonateAllVestingTokensTx = () => {
       return <Wrong>{t("Vesting does not exist")}</Wrong>
 
     if (delegations.length || unbondings.length)
-      return <Wrong>{t("All Luna must be undelegated")}</Wrong>
+      return <Wrong>{t("All Lunc must be undelegated")}</Wrong>
 
     return (
       <TxContext>
