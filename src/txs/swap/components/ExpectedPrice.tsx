@@ -53,7 +53,7 @@ const ExpectedPrice = ({ mode, input, ...props }: Props) => {
       <>
         {[offerAsset, askAsset].some(isDenomLuna) && (
           <p>
-            {t("Minimum Luna swap spread: {{minSpread}}", {
+            {t("Minimum Lunc swap spread: {{minSpread}}", {
               minSpread: readPercent(minSpread),
             })}
           </p>
