@@ -33,7 +33,11 @@ const Contacts = ({ contacts, menu }: Props) => {
       {Object.entries(contacts).map(([key, href]) => {
         const icon = icons[key]
         return !icon ? null : (
-          <ExternalLink href={href} className={styles.icon} key={key}>
+          <ExternalLink
+            href={href}
+            className={cx(styles.icon, styles.external)}
+            key={key}
+          >
             {icon}
           </ExternalLink>
         )
